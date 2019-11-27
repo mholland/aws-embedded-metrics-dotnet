@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,16 +6,6 @@ using System.Text.Json;
 
 namespace AWSEmbeddedMetrics
 {
-    internal interface ISystemClock
-    {
-        DateTimeOffset UtcNow { get; }
-    }
-
-    internal sealed class SystemClock : ISystemClock
-    {
-        public DateTimeOffset UtcNow => DateTimeOffset.UtcNow;
-    }
-
     internal sealed class Serialiser
     {
         private readonly ISystemClock _systemClock;
