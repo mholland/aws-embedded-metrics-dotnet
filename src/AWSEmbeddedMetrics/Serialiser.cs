@@ -3,22 +3,26 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using AWSEmbeddedMetrics.Internal;
 
 namespace AWSEmbeddedMetrics
 {
     internal sealed class Serialiser
     {
+        private readonly MetricLoggerOptions _options;
         private readonly ISystemClock _systemClock;
 
-        public Serialiser(ISystemClock systemClock)
+        public Serialiser(ISystemClock systemClock, MetricLoggerOptions options)
         {
-            _systemClock = systemClock;
+            _options = options;
+            _systemClock = systemClock ?? new SystemClock();
         }
         public string SerialiseMetric(Metric metric)
         {
             using var ms = new MemoryStream();
             using var writer = new Utf8JsonWriter(ms);
 
+            // CloudWatch supports a maximum of 10 dimensions.
             var dimensions = metric.Dimensions.Take(10).ToDictionary(x => x.Key, x => x.Value);
 
             writer.WriteStartObject();
@@ -29,7 +33,7 @@ namespace AWSEmbeddedMetrics
             writer.WriteStartArray("CloudWatchMetrics");
             writer.WriteStartObject();
 
-            writer.WriteString("Namespace", metric.Namespace ?? "aws-embedded-metrics");
+            writer.WriteString("Namespace", metric.Namespace ?? _options.DefaultNamespace);
 
             writer.WriteStartArray("Dimensions");
             WriteDimensionReferences(writer, dimensions);
@@ -73,7 +77,7 @@ namespace AWSEmbeddedMetrics
             writer.WriteEndArray();
         }
 
-        private void WriteTargetMembers(Utf8JsonWriter writer, IReadOnlyDictionary<string, string> pairs)
+        private static void WriteTargetMembers(Utf8JsonWriter writer, IReadOnlyDictionary<string, string> pairs)
         {
             foreach (var property in pairs)
             {

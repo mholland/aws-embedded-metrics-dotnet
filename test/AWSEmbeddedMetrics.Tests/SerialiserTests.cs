@@ -11,7 +11,7 @@ namespace AWSEmbeddedMetrics.Tests
         [Fact]
         public void ThenTheSerialisedMetricIsFormattedCorrectly()
         {
-            var serialiser = new Serialiser(new TestClock(new DateTimeOffset(2015, 09, 28, 09, 00, 00, TimeSpan.Zero)));
+            var serialiser = new Serialiser(new TestClock(new DateTimeOffset(2015, 09, 28, 09, 00, 00, TimeSpan.Zero)), new MetricLoggerOptions());
             var metric = MetricBuilder
                 .Create()
                 .SpecifyMetric("time", 100, Unit.Milliseconds)
@@ -58,9 +58,46 @@ namespace AWSEmbeddedMetrics.Tests
         }
 
         [Fact]
+        public void WhenNamespaceIsOmittedThenTheSerialisedMetricHasTheDefaultNamespace()
+        {
+            var serialiser = new Serialiser(new TestClock(new DateTimeOffset(2015, 09, 28, 09, 00, 00, TimeSpan.Zero)), new MetricLoggerOptions{DefaultNamespace = "User-Specified-Default"});
+            var metric = MetricBuilder
+                .Create()
+                .SpecifyMetric("time", 100, Unit.Milliseconds)
+                .Build();
+
+            var json = serialiser.SerialiseMetric(metric);
+            JObject
+                .Parse(json)
+                .Should()
+                .BeEquivalentTo(@"
+{
+    ""_aws"": {
+        ""Timestamp"": 1443430800,
+        ""CloudWatchMetrics"": [
+            {
+                ""Namespace"": ""User-Specified-Default"",
+                ""Dimensions"": [
+                    []
+                ],
+                ""Metrics"": [
+                    {
+                        ""Name"": ""time"",
+                        ""Unit"": ""Milliseconds""
+                    }
+                ]
+            }
+        ]
+    },
+    ""time"": 100
+}
+");
+        }
+
+        [Fact]
         public void WhenMoreThanTenDimensionsAreProvidedThenOnlyTenAreRecorded()
         {
-            var serialiser = new Serialiser(new TestClock());
+            var serialiser = new Serialiser(new TestClock(), new MetricLoggerOptions());
             var metric = MetricBuilder
                 .Create()
                 .SpecifyMetric("time", 100, Unit.Milliseconds)

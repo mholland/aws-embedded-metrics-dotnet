@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AWSEmbeddedMetrics.Internal;
 using FluentAssertions;
 using NJsonSchema;
 using NJsonSchema.Validation;
@@ -10,6 +11,7 @@ namespace AWSEmbeddedMetrics.Tests
 {
     public sealed class SerialiserSchemaTests
     {
+        // https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Embedded_Metric_Format_Specification.html#CloudWatch_Embedded_Metric_Format_Specification_structure_example
         private static string _embeddedFormatSchema = @"{
   ""definitions"": {},
   ""$schema"": """",
@@ -133,7 +135,7 @@ namespace AWSEmbeddedMetrics.Tests
         [MemberData(nameof(MetricTestData))]
         public async Task GivenAMetricWhenSerialisedThenTheFormatValidatesSuccessfullyAgainstTheSchema(Metric metric)
         {
-            var serialiser = new Serialiser(new SystemClock());
+            var serialiser = new Serialiser(new SystemClock(), new MetricLoggerOptions());
 
             var format = serialiser.SerialiseMetric(metric);
             var schema = await JsonSchema.FromJsonAsync(_embeddedFormatSchema);

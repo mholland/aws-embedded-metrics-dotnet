@@ -1,4 +1,5 @@
 using System;
+using AWSEmbeddedMetrics.Internal;
 
 namespace AWSEmbeddedMetrics.Tests
 {
