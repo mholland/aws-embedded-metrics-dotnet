@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A895D491-0941-4835-8599-FE22EECCC1F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AWSEmbeddedMetrics", "src\AWSEmbeddedMetrics\AWSEmbeddedMetrics.csproj", "{5E1F0B00-5BAD-4DE1-AD48-652C03A2B053}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AWSEmbeddedMetrics", "src\AWSEmbeddedMetrics\AWSEmbeddedMetrics.csproj", "{5E1F0B00-5BAD-4DE1-AD48-652C03A2B053}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{F2381E77-DD71-4EDB-A899-191F5C9D0BFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AWSEmbeddedMetrics.Tests", "test\AWSEmbeddedMetrics.Tests\AWSEmbeddedMetrics.Tests.csproj", "{8CBBED9E-87AA-409E-9F46-B61EC9FAB746}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AWSEmbeddedMetrics.Tests", "test\AWSEmbeddedMetrics.Tests\AWSEmbeddedMetrics.Tests.csproj", "{8CBBED9E-87AA-409E-9F46-B61EC9FAB746}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,9 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5E1F0B00-5BAD-4DE1-AD48-652C03A2B053}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -49,8 +46,14 @@ Global
 		{8CBBED9E-87AA-409E-9F46-B61EC9FAB746}.Release|x86.ActiveCfg = Release|Any CPU
 		{8CBBED9E-87AA-409E-9F46-B61EC9FAB746}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5E1F0B00-5BAD-4DE1-AD48-652C03A2B053} = {A895D491-0941-4835-8599-FE22EECCC1F5}
 		{8CBBED9E-87AA-409E-9F46-B61EC9FAB746} = {F2381E77-DD71-4EDB-A899-191F5C9D0BFC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {962F0E04-C500-4612-BBB3-16BF55F0D572}
 	EndGlobalSection
 EndGlobal
